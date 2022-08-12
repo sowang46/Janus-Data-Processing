@@ -10,7 +10,7 @@ def isNaN(item):
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Parse L2 data from Janus debugger data')
     parser.add_argument('--data_path', type=str, default='', help='The path to the L2 data file')
-    parser.add_argument('--verbose', type=bool, default=False, help='Print debug info')
+    parser.add_argument('--verbose', action='store_true', help='Print debug info')
     parser.add_argument('--relative_time', action='store_true', help='Show relative timestamp starting from 0')
     args = parser.parse_args()
 
