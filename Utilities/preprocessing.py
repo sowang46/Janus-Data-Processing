@@ -1,4 +1,5 @@
 import json, ast
+import os
 import pandas as pd
 from operator import itemgetter
 
@@ -89,5 +90,7 @@ def read_to_pandas(data_fn):
                     data_p[frame_type][field].append(data[field])
                 else:
                     data_p[frame_type][field].append(float('nan'))
+        os.remove('tmp_json')
+
     data_p = {ft:pd.DataFrame(data_p[ft]) for ft in data_p.keys()}
     return data_p
