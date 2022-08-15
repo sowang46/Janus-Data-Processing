@@ -3,19 +3,17 @@ import argparse
 import seaborn as sns
 import matplotlib.pyplot as plt
 from Utilities.preprocessing import read_to_pandas
-
-def isNaN(item):
-    return item!=item
+from Utilities.misc import isNaN
 
 if __name__=="__main__":
-    parser = argparse.ArgumentParser(description='Parse L2 data from Janus debugger data')
+    parser = argparse.ArgumentParser(description='Parse L2 data from Janus debugger data including: BSR, gNB queue load, CQI')
     parser.add_argument('--data_path', type=str, default='', help='The path to the L2 data file')
     parser.add_argument('--verbose', action='store_true', help='Print debug info')
     parser.add_argument('--relative_time', action='store_true', help='Show relative timestamp starting from 0')
     args = parser.parse_args()
 
     data = read_to_pandas(args.data_path)
-    assert 'boReport' in data.keys(), "Input file is not L2 data"
+    assert 'boReport' in data.keys(), "Input file is not valid L2 data"
     if args.verbose:
         for k, v in data.items():
             print(f"\nData type: {k}")
