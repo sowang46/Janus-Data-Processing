@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 def get_per_frame(data):    
     '''
@@ -41,3 +42,42 @@ def get_per_frame(data):
     per_frame_data = pd.DataFrame(per_frame_data)
 
     return per_frame_data
+
+def to_trace(data, fn):
+    '''
+    Convert Pandas DFs to a JSON list that complies with chrome tracing tool
+    
+    :data: List of l1 Janus Pandas frame, e.g. ['ulSchPdu': <pandas_df>, 'dlSchPdu', <pandas>]
+    :fn: file name
+    '''
+    all_event = [{"name": "process_name", "ph": "M", "pid": 1, 
+                  "args": {
+                    "name": "L1 resource grid"
+                  }}]
+
+    if 'ulSchPdu' in data.keys():
+        for ii in range(1, len(data['ulSchPdu'])):
+            for jj in range(data['ulSchPdu']['rbStart'][ii], data['ulSchPdu']['rbStart'][ii]+data['ulSchPdu']['rbSize'][ii]):
+                # Complete event
+                x_event = {"name": "ulSchPdu", "cat": "ulSch", "ph": "X", 
+                           "ts": data['ulSchPdu']['Timestamp'][ii]/1e3, 
+                           "dur": 500,      # Hard code for 30KHz SCS for now
+                           "pid": 1,        
+                           "tid": jj,       # A thread represent a RB in freqnency
+                           }
+                all_event.append(x_event)
+
+    if 'dlSchPdu' in data.keys():
+        for ii in range(1, len(data['dlSchPdu'])):
+            for jj in range(data['dlSchPdu']['rbStart'][ii], data['dlSchPdu']['rbStart'][ii]+data['dlSchPdu']['rbSize'][ii]):
+                # Complete event
+                x_event = {"name": "dlSchPdu", "cat": "dlSch", "ph": "X", 
+                           "ts": data['dlSchPdu']['Timestamp'][ii]/1e3, 
+                           "dur": 500,      # Hard code for 30KHz SCS for now
+                           "pid": 1,        
+                           "tid": jj,       # A thread represent a RB in freqnency
+                           }
+                all_event.append(x_event)
+
+        with open(fn, 'w') as f:
+            json.dump(all_event, f)

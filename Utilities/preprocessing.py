@@ -90,7 +90,10 @@ def read_to_pandas(data_fn):
                     data_p[frame_type][field].append(data[field])
                 else:
                     data_p[frame_type][field].append(float('nan'))
-        os.remove('tmp_json')
+        # os.remove('tmp_json')
 
     data_p = {ft:pd.DataFrame(data_p[ft]) for ft in data_p.keys()}
+    # Somehow DL data is not well sorted after preprocessing
+    if 'dlSchPdu' in data_p.keys():
+        data_p['dlSchPdu'] = data_p['dlSchPdu'].sort_values(by=['Timestamp'], ascending=True, ignore_index=True)
     return data_p
