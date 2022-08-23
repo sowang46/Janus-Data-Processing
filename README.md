@@ -26,7 +26,7 @@ Convert L1 data to tracing file:
 python ParseL1.py --data_path <PATH_TO_DATA> --save_trace
 ```
 
-The trace file will be stored in `out` directory and can be viewed by Chrome tracing files. To view the trace, open chrome and type [chrome://tracing](chrome://tracing) and then load the trace file. You will see something similar to this:
+The trace file will be stored in `out` directory and can be viewed by Chrome tracing files. To view the trace, open chrome and type `chrome://tracing` and then load the trace file. You will see something similar to this:
 
 ![Sample L1 trace](examples/l1_trace_example.png)
 

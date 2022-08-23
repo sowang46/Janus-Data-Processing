@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from Utilities.preprocessing import read_to_pandas
 from Utilities.l1 import get_per_frame, to_trace
 from Utilities.misc import isNaN
+from datetime import datetime
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Parse L1 data from Janus debugger data')
@@ -67,7 +68,9 @@ if __name__=="__main__":
         print(dl_frame_interval)
 
     if args.save_trace:
-        to_trace(data, './out/trace.json')
+        to_trace(data, f'./out/{datetime.now().strftime("%d%m%y%H%M")}.json')
+        if args.verbose:
+            print('Generated trace file')
 
     # Visualize 
     plt.figure()
