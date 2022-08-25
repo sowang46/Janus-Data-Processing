@@ -55,6 +55,12 @@ def to_trace(data, fn):
                     "name": "L1 resource grid"
                   }}]
 
+    for ii in range(270):
+        all_event.append({"name": "thread_name", "ph": "M", "pid": 1, "tid": ii,
+                          "args": {
+                            "name": f'RB {ii}'
+                          }})
+
     if 'ulSchPdu' in data.keys():
         for ii in range(1, len(data['ulSchPdu'])):
             for jj in range(data['ulSchPdu']['rbStart'][ii], data['ulSchPdu']['rbStart'][ii]+data['ulSchPdu']['rbSize'][ii]):

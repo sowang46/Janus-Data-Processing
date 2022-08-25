@@ -9,13 +9,7 @@ from Utilities.l1 import get_per_frame, to_trace
 from Utilities.misc import isNaN
 from datetime import datetime
 
-if __name__=="__main__":
-    parser = argparse.ArgumentParser(description='Parse L1 data from Janus debugger data')
-    parser.add_argument('--data_path', type=str, default='', help='The path to the L2 data file')
-    parser.add_argument('--verbose', action='store_true', help='Print debug info')
-    parser.add_argument('--save_trace', action='store_true', help='Save to Chrome trace viewer file')
-    args = parser.parse_args()
-
+def main(args):
     data = read_to_pandas(args.data_path)
     if args.verbose:
         print("Converted txt to pandas data frame")
@@ -125,3 +119,12 @@ if __name__=="__main__":
     plt.ylabel("")
 
     plt.show()
+
+if __name__=="__main__":
+    parser = argparse.ArgumentParser(description='Parse L1 data from Janus debugger data')
+    parser.add_argument('--data_path', type=str, default='', help='The path to the L2 data file')
+    parser.add_argument('--verbose', action='store_true', help='Print debug info')
+    parser.add_argument('--save_trace', action='store_true', help='Save to Chrome trace viewer file')
+    args = parser.parse_args()
+
+    main(args)
